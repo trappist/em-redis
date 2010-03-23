@@ -201,6 +201,48 @@ module EventMachine
       end
       alias_method :intersect_and_store, :sinterstore
 
+      # Hash methods
+      def hset(key, field, value, &blk)
+        multiline_command "HSET", key, field, value, &blk
+      end
+      alias_method :hash_set, :hset
+
+      def hget(key, field, &blk)
+        multiline_command "HGET", key, field, &blk
+      end
+      alias_method :hash_get, :hget
+
+      def hdel(key, field, &blk)
+        multiline_command "HDEL", key, field, &blk
+      end
+      alias_method :hash_delete, :hdel
+
+      def hexists(key, field, &blk)
+        multiline_command "HEXISTS", key, field, &blk
+      end
+      alias_method :hash_exists, :hexists
+      alias_method :hash_key_exists, :hexists
+
+      def hlen(key, &blk)
+        inline_command "HLEN", key, &blk
+      end
+      alias_method :hash_length, :hlen
+
+      def hkeys(key, &blk)
+        inline_command "HKEYS", key, &blk
+      end
+      alias_method :hash_keys, :hkeys
+
+      def hvals(key, &blk)
+        inline_command "HVALS", key, &blk
+      end
+      alias_method :hash_values, :hvals
+
+      def hgetall(key, &blk)
+        inline_command "HGETALL", key, &blk
+      end
+      alias_method :hash_get_all, :hgetall
+
    #  UNION SET MANIP NOT IN RELEASE BUILDS YET
    ############################################
    #  
@@ -470,7 +512,7 @@ module EventMachine
           @reconnecting = true
           @deferred_status = nil
         else
-          raise 'Unable to connect to memcached server'
+          raise 'Unable to connect to Redis server'
         end
       end
 
